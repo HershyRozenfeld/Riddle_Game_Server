@@ -1,5 +1,5 @@
 import readlineSync from "readline-sync";
-const SERVER_URL = "";
+const SERVER_URL = "http://localhost:3000";
 
 async function mainMenu() {
   console.log("\nWhat do you want to do?");
@@ -43,23 +43,29 @@ async function playGame() {
 }
 
 async function createRiddle() {
-  const question = readlineSync.question("Enter riddle question: ");
-  const answer = readlineSync.question("Enter riddle answer: ");
-  const body = { question, answer };
+  let level = readlineSync.question("Select difficulty (Easy/Medium/Hard): ");
+  if (!["Easy", "Medium", "Hard"].includes(level)) {
+    console.log("Invalid level! Defaulting to Easy.");
+    level = "Easy";
+  }
+  const name = readlineSync.question("Riddle name: ");
+  const taskDescription = readlineSync.question("Enter riddle question: ");
+  const correctAnswer = readlineSync.question("Enter riddle answer: ");
+  const body = { level, name, taskDescription, correctAnswer };
   const res = await fetch(`${SERVER_URL}/riddles`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(body),
   });
-  const text = res.text(res);
-  console.log(`Response: ${text}`);
+  const text = await res.text(res);
+  console.log(text);
 }
 async function readRiddles() {
   const res = await fetch(`${SERVER_URL}/riddles`);
-  const data = res.text();
-  console.log(`Response: ${data}`);
+  const data = await res.json();
+  console.log(data);
 }
 async function updateRiddle() {
   const id = readlineSync.question("Enter riddle ID to update: ");
@@ -67,30 +73,30 @@ async function updateRiddle() {
   const answer = readlineSync.question("New answer: ");
   const body = { question, answer };
 
-  const res = await fetch(`${SERVER_URL}/riddles/${id}`,{
-    method:'PUT',
+  const res = await fetch(`${SERVER_URL}/riddles/${id}`, {
+    method: "PUT",
     headers: {
-        'Content-Type':'appliction/json'
+      "Content-Type": "appliction/json",
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
   });
   const text = await res.text();
   console.log(text);
 }
 async function deleteRiddle() {
-    const id = readlineSync.question('Enter riddle ID to delete: ');
-    const res = await fetch(`${SERVER_URL}/riddles/${id}`, {
-        method:'DELETE',
-        headers:{
-            'Content-Type':'application/json'
-        }
-    });
-    const text = await res.text();
-    console.log(text);
+  const id = readlineSync.question("Enter riddle ID to delete: ");
+  const res = await fetch(`${SERVER_URL}/riddles/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const text = await res.text();
+  console.log(text);
 }
 async function viewLeaderboard() {
-    const res = await fetch(`${SERVER_URL}/leaderboard`);
-    const data = res.text();
-    console.log(data);
+  const res = await fetch(`${SERVER_URL}/leaderboard`);
+  const data = res.text();
+  console.log(data);
 }
 mainMenu();
