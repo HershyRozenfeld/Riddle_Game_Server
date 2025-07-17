@@ -1,0 +1,103 @@
+{
+    "Easy": [
+        {
+            "id": 1,
+            "name": "Easy Math 1",
+            "TaskDescription": "What is 45 + 4?",
+            "CorrectAnswer": 49
+        },
+        {
+            "id": 2,
+            "name": "Easy Math 2",
+            "TaskDescription": "What is 10 + 7?",
+            "CorrectAnswer": 17
+        },
+        {
+            "id": 3,
+            "name": "Easy Math 3",
+            "TaskDescription": "What is 20 - 5?",
+            "CorrectAnswer": 15
+        },
+        {
+            "id": 4,
+            "name": "Easy Math 4",
+            "TaskDescription": "What is 6 * 3?",
+            "CorrectAnswer": 18
+        },
+        {
+            "id": 5,
+            "name": "Easy Math 5",
+            "TaskDescription": "What is 25 / 5?",
+            "CorrectAnswer": 5
+        },
+        {
+            "id": 16,
+            "TaskDescription": "s",
+            "CorrectAnswer": "s"
+        }
+    ],
+    "Medium": [
+        {
+            "id": 6,
+            "name": "Medium Math 1",
+            "TaskDescription": "What is (12 * 3) + 4?",
+            "CorrectAnswer": 40
+        },
+        {
+            "id": 7,
+            "name": "Medium Math 2",
+            "TaskDescription": "What is 50 - (7 * 5)?",
+            "CorrectAnswer": 15
+        },
+        {
+            "id": 8,
+            "name": "Medium Math 3",
+            "TaskDescription": "What is (100 / 4) + 15?",
+            "CorrectAnswer": 40
+        },
+        {
+            "id": 9,
+            "name": "Medium Math 4",
+            "TaskDescription": "If you have 3 dozen eggs, how many eggs do you have?",
+            "CorrectAnswer": 36
+        },
+        {
+            "id": 10,
+            "name": "Medium Math 5",
+            "TaskDescription": "What is the result of 150 divided by 3, minus 10?",
+            "CorrectAnswer": 40
+        }
+    ],
+    "Hard": [
+        {
+            "id": 11,
+            "name": "Hard Math 1",
+            "TaskDescription": "What is (200 / 10) * 5 - 30?",
+            "CorrectAnswer": 70
+        },
+        {
+            "id": 12,
+            "name": "Hard Math 2",
+            "TaskDescription": "If a shirt costs $25 and is on sale for 20% off, what is the sale price?",
+            "CorrectAnswer": 20
+        },
+        {
+            "id": 13,
+            "name": "Hard Math 3",
+            "TaskDescription": "What is 3 squared plus 4 cubed?",
+            "CorrectAnswer": 73
+        },
+        {
+            "id": 14,
+            "name": "Hard Math 4",
+            "TaskDescription": "If you drive at 60 miles per hour for 2.5 hours, how many miles have you traveled?",
+            "CorrectAnswer": 150
+        },
+        {
+            "id": 15,
+            "name": "Hard Math 5",
+            "TaskDescription": "What is the smallest positive integer that is divisible by both 2 and 7?",
+            "CorrectAnswer": 14
+        }
+    ]
+}

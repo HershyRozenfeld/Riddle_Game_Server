@@ -6,11 +6,13 @@ const app = express();
 app.use(express.json());
 
 const PORT = 3000;
-const filePath = path.resolve('db/riddles.txt');
+const filePath = path.resolve('server/db/riddles.txt');
 
 async function readRiddles() {
   try {
+    console.log(filePath);
     const data = await readFile(filePath, 'utf8');
+    console.log('Riddles loaded successfully:', data);
     return JSON.parse(data);
   } catch {
     return { Easy: [], Medium: [], Hard: [] };
@@ -26,6 +28,7 @@ app.get('/play', (req, res) => {
 });
 
 app.get('/riddles', async (req, res) => {
+  console.log("Fetching all riddles...");
   const data = await readRiddles();
   res.json(data);
 });

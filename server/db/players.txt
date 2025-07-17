@@ -1,0 +1,78 @@
+{
+    "players": [
+        {
+            "id": 1,
+            "name": "משה",
+            "email": "moshe@example.com",
+            "solvedRiddles": [
+                1,
+                2,
+                3
+            ],
+            "stats": {
+                "totalRiddles": 3,
+                "totalTimeSeconds": 120,
+                "averageTimeSeconds": 40,
+                "levelProgress": {
+                    "Easy": 3,
+                    "Medium": 0,
+                    "Hard": 0
+                }
+            },
+            "lastPlayed": "2024-01-15T10:30:00Z"
+        },
+        {
+            "id": 2,
+            "name": "שרה",
+            "email": "sarah@example.com",
+            "solvedRiddles": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+            ],
+            "stats": {
+                "totalRiddles": 7,
+                "totalTimeSeconds": 200,
+                "averageTimeSeconds": 28,
+                "levelProgress": {
+                    "Easy": 5,
+                    "Medium": 2,
+                    "Hard": 0
+                }
+            },
+            "lastPlayed": "2024-01-16T14:20:00Z"
+        },
+        {
+            "id": 3,
+            "name": "hershy",
+            "email": "Y6764057@gmail.com",
+            "solvedRiddles": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10
+            ],
+            "stats": {
+                "totalRiddles": 10,
+                "totalTimeSeconds": 100,
+                "averageTimeSeconds": 10,
+                "levelProgress": {
+                    "Easy": 5,
+                    "Medium": 5,
+                    "Hard": 0
+                }
+            },
+            "lastPlayed": "2025-07-07T09:49:08.016Z"
+        }
+    ]
+}
