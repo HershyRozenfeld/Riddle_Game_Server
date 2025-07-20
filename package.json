@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "@supabase/supabase-js": "^2.52.0",
+    "dotenv": "^17.2.0",
+    "mongodb": "^6.17.0"
+  },
+  "name": "riddle-game",
+  "version": "1.0.0",
+  "description": "This project provides a small Express server for serving and managing riddles. Originally it stored the data in local text files. This version uses two databases:",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "type": "module",
+  "license": "ISC"
+}

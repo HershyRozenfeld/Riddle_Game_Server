@@ -1,9 +1,13 @@
 import { MongoClient } from "mongodb";
-import dotenv from "dotenv";
+// import dotenv from "dotenv/config";
 
-dotenv.config();
-
-const client = new MongoClient(process.env.MONGO_URI);
+// const client = new MongoClient(
+//   process.env.MONGO_URI ||
+//     "mongodb+srv://hershy:hershy@clusterone.emw47go.mongodb.net"
+// );
+const client = new MongoClient(
+    "mongodb+srv://hershy:hershy@clusterone.emw47go.mongodb.net"
+);
 
 let db;
 
@@ -23,3 +27,15 @@ export function getDb() {
   }
   return db;
 }
+
+
+
+// // בדיקת חיבור לבסיס הנתונים
+// await connectToMongo()
+//   .then(() => {
+//     console.log("MongoDB connection established");
+//   })
+//   .catch((err) => {
+//     console.error("Failed to connect to MongoDB:", err.message);
+//   });
+

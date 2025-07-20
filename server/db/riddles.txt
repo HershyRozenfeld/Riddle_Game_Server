@@ -101,3 +101,139 @@
         }
     ]
 }
+
+
+
+-- This code snippet defines a set of riddles categorized by difficulty levels: Easy, Medium, and Hard. Each riddle has an ID, name, task description, and the correct answer.
+const riddles = [
+  {
+    id: 1,
+    name: "Easy Math 1",
+    TaskDescription: "What is 45 + 4?",
+    CorrectAnswer: 49,
+    difficulty: "Easy",
+  },
+  {
+    id: 2,
+    name: "Easy Math 2",
+    TaskDescription: "What is 10 + 7?",
+    CorrectAnswer: 17,
+    difficulty: "Easy",
+  },
+  {
+    id: 3,
+    name: "Easy Math 3",
+    TaskDescription: "What is 20 - 5?",
+    CorrectAnswer: 15,
+    difficulty: "Easy",
+  },
+  {
+    id: 4,
+    name: "Easy Math 4",
+    TaskDescription: "What is 6 * 3?",
+    CorrectAnswer: 18,
+    difficulty: "Easy",
+  },
+  {
+    id: 5,
+    name: "Easy Math 5",
+    TaskDescription: "What is 25 / 5?",
+    CorrectAnswer: 5,
+    difficulty: "Easy",
+  },
+  {
+    id: 16,
+    name: "Easy Math 6",
+    TaskDescription: "What is 8 + 11?",
+    CorrectAnswer: 19,
+    difficulty: "Easy",
+  },
+
+  {
+    id: 6,
+    name: "Medium Math 1",
+    TaskDescription: "What is (12 * 3) + 4?",
+    CorrectAnswer: 40,
+    difficulty: "Medium",
+  },
+  {
+    id: 7,
+    name: "Medium Math 2",
+    TaskDescription: "What is 50 - (7 * 5)?",
+    CorrectAnswer: 15,
+    difficulty: "Medium",
+  },
+  {
+    id: 8,
+    name: "Medium Math 3",
+    TaskDescription: "What is (100 / 4) + 15?",
+    CorrectAnswer: 40,
+    difficulty: "Medium",
+  },
+  {
+    id: 9,
+    name: "Medium Math 4",
+    TaskDescription: "If you have 3 dozen eggs, how many eggs do you have?",
+    CorrectAnswer: 36,
+    difficulty: "Medium",
+  },
+  {
+    id: 10,
+    name: "Medium Math 5",
+    TaskDescription: "What is the result of 150 divided by 3, minus 10?",
+    CorrectAnswer: 40,
+    difficulty: "Medium",
+  },
+
+  {
+    id: 11,
+    name: "Hard Math 1",
+    TaskDescription: "What is (200 / 10) * 5 - 30?",
+    CorrectAnswer: 70,
+    difficulty: "Hard",
+  },
+  {
+    id: 12,
+    name: "Hard Math 2",
+    TaskDescription:
+      "If a shirt costs $25 and is on sale for 20% off, what is the sale price?",
+    CorrectAnswer: 20,
+    difficulty: "Hard",
+  },
+  {
+    id: 13,
+    name: "Hard Math 3",
+    TaskDescription: "What is 3 squared plus 4 cubed?",
+    CorrectAnswer: 73,
+    difficulty: "Hard",
+  },
+  {
+    id: 14,
+    name: "Hard Math 4",
+    TaskDescription:
+      "If you drive at 60 miles per hour for 2.5 hours, how many miles have you traveled?",
+    CorrectAnswer: 150,
+    difficulty: "Hard",
+  },
+  {
+    id: 15,
+    name: "Hard Math 5",
+    TaskDescription:
+      "What is the smallest positive integer that is divisible by both 2 and 7?",
+    CorrectAnswer: 14,
+    difficulty: "Hard",
+  },
+];
+try {
+  const collection = db.collection("Riddle");
+
+  // אינדקס ייחודי על id (אם כבר קיים יוחלף ב-dropDups=false)
+  await collection.createIndex({ id: 1 }, { unique: true });
+
+  const { insertedCount } = await collection.insertMany(riddles);
+  console.log(`✔  Inserted ${insertedCount} riddles`);
+} catch (err) {
+  console.error("❌  Seed failed:", err);
+} finally {
+  await client.close();
+}
