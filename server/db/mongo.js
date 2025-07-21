@@ -39,3 +39,19 @@ export function getDb() {
 //     console.error("Failed to connect to MongoDB:", err.message);
 //   });
 
+
+
+
+// try {
+//   const collection = db.collection("Player");
+
+//   // אינדקס ייחודי על id (אם כבר קיים יוחלף ב-dropDups=false)
+//   await collection.createIndex({ id: 1 }, { unique: true });
+
+//   const { insertedCount } = await collection.insertMany(riddles);
+//   console.log(`✔  Inserted ${insertedCount} riddles`);
+// } catch (err) {
+//   console.error("❌  Seed failed:", err);
+// } finally {
+//   await client.close();
+// }

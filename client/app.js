@@ -37,7 +37,7 @@ async function mainMenu() {
 }
 
 async function playGame() {
-  const res = await fetch(`${SERVER_URL}/play`);
+  const res = await fetch(`${SERVER_URL}/api/play`);
   const text = await res.text();
   console.log(`Response: ${text}`);
 }
@@ -46,12 +46,14 @@ async function createRiddle() {
   const level = readlineSync.question("Select difficulty (Easy/Medium/Hard): ");
   const name = readlineSync.question("Riddle name: ");
   const TaskDescription = readlineSync.question("Riddle description: ");
-  const CorrectAnswer = parseInt(readlineSync.question("Correct answer (number): "));
+  const CorrectAnswer = parseInt(
+    readlineSync.question("Correct answer (number): ")
+  );
   const body = { level, name, TaskDescription, CorrectAnswer };
-  const res = await fetch(`${SERVER_URL}/riddles`, {
+  const res = await fetch(`${SERVER_URL}/api/riddles`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(body),
   });
@@ -59,12 +61,25 @@ async function createRiddle() {
   console.log(data);
 }
 async function readRiddles() {
-  const res = await fetch(`${SERVER_URL}/riddles`);
+  const res = await fetch(`${SERVER_URL}/api/riddles`);
+  if (!res.ok) {
+    console.error(`Error: ${res.status} ${res.statusText}`);
+    return;
+  }
+
   const data = await res.json();
   console.log("\n=== All Riddles ===");
-  for (const level of Object.keys(data)) {
+
+  const grouped = {};
+  for (const riddle of data) {
+    if (!grouped[riddle.difficulty]) {
+      grouped[riddle.difficulty] = [];
+    }
+    grouped[riddle.difficulty].push(riddle);
+  }
+  for (const level of Object.keys(grouped)) {
     console.log(`\n--- ${level} ---`);
-    for (const r of data[level]) {
+    for (const r of grouped[level]) {
       console.log(`ID: ${r.id} | Name: ${r.name}`);
       console.log(`Question: ${r.TaskDescription}`);
       console.log(`Answer: ${r.CorrectAnswer}\n`);
@@ -82,30 +97,30 @@ async function updateRiddle() {
   const num = parseInt(CorrectAnswerStr);
   if (!isNaN(num)) body.CorrectAnswer = num;
 
-  const res = await fetch(`${SERVER_URL}/riddles/${id}`,{
-    method:'PUT',
+  const res = await fetch(`${SERVER_URL}/api/riddles/${id}`, {
+    method: "PUT",
     headers: {
-        'Content-Type':'application/json'
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
   });
   const text = await res.text();
   console.log(text);
 }
 async function deleteRiddle() {
-    const id = readlineSync.question('Enter riddle ID to delete: ');
-    const res = await fetch(`${SERVER_URL}/riddles/${id}`, {
-        method:'DELETE',
-        headers:{
-            'Content-Type':'application/json'
-        }
-    });
-    const text = await res.text();
-    console.log(text);
+  const id = readlineSync.question("Enter riddle ID to delete: ");
+  const res = await fetch(`${SERVER_URL}/api/riddles/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const text = await res.text();
+  console.log(text);
 }
 async function viewLeaderboard() {
-    const res = await fetch(`${SERVER_URL}/leaderboard`);
-    const data = await res.text();
-    console.log(data);
+  const res = await fetch(`${SERVER_URL}/api/leaderboard`);
+  const data = await res.text();
+  console.log(data);
 }
 mainMenu();

@@ -8,7 +8,8 @@ const router = Router();
 router.get('/', async (req, res) => {
   try {
     const db = getDb();
-    const riddles = await db.collection('riddles').find({}).toArray();
+    const riddles = await db.collection('Riddle').find({}).toArray();
+    console.log(riddles)
     res.status(200).json(riddles);
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch riddles', error: error.message });
