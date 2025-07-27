@@ -9,7 +9,6 @@ router.get('/', async (req, res) => {
   try {
     const db = getDb();
     const riddles = await db.collection(COLLECTION_NAME).find({}).toArray();
-    console.log(riddles)
     res.status(200).json(riddles);
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch riddles', error: error.message });
@@ -34,7 +33,7 @@ router.post('/', async (req, res) => {
 
 // GET /api/riddles/riddle/:id - קבל חידה לפי ID
 router.put('/:id', async (req, res) => {
-    try {
+  try {
     const { id } = req.params;
     if (!ObjectId.isValid(id)) {
       return res.status(400).json({ message: 'Invalid id' });
@@ -68,8 +67,6 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-
-
 // DELETE /api/riddles/riddle/:id - מחק חידה לפי ID
 router.delete('/:id', async (req, res) => {
   try {
@@ -87,9 +84,9 @@ router.delete('/:id', async (req, res) => {
 
 router.post('/load-initial-riddles', async (req, res) => {
   try {
-    const initialRiddles = req.body; 
+    const initialRiddles = req.body;
     if (!Array.isArray(initialRiddles) || initialRiddles.length === 0) {
-        return res.status(400).json({ message: 'Request body must be a non-empty array of riddles.' });
+      return res.status(400).json({ message: 'Request body must be a non-empty array of riddles.' });
     }
     const db = getDb();
     await db.collection(COLLECTION_NAME).deleteMany({});
