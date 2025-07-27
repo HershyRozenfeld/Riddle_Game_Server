@@ -145,10 +145,10 @@ async function playGame() {
     
     const riddles = await res.json();
     
-    // Filter unsolved riddles
-    const unsolvedRiddles = riddles.filter(riddle => 
-      !currentPlayer.solved_riddles.includes(riddle._id)
-    );
+    const unsolvedRiddles = riddles.filter(riddle => {
+      const riddleIdString = riddle._id.toString();
+      return !currentPlayer.solved_riddles.includes(riddleIdString);
+    });
     
     if (unsolvedRiddles.length === 0) {
       console.log("🎉 Congratulations! You've solved all available riddles!");
@@ -168,14 +168,17 @@ async function playGame() {
     
     const timeToSolve = Math.round((endTime - startTime) / 1000); // seconds
     
-    // Check answer
-    if (parseInt(userAnswer) === parseInt(randomRiddle.answer)) {
+    // Check answer - convert both to strings for comparison
+    const userAnswerStr = userAnswer.toString().toLowerCase().trim();
+    const correctAnswerStr = randomRiddle.answer.toString().toLowerCase().trim();
+    
+    if (userAnswerStr === correctAnswerStr) {
       console.log("🎉 Correct! Well done!");
       
-      // Submit score
+      // Submit score - send riddle ID as string
       const scoreData = {
         email: currentPlayer.email,
-        riddle_id: randomRiddle._id,
+        riddle_id: randomRiddle._id.toString(), // Convert to string
         time_to_solve: timeToSolve,
         riddle_level: randomRiddle.level
       };
@@ -192,7 +195,7 @@ async function playGame() {
         console.log(`📊 Updated stats:`, result.updatedStats);
         
         // Update current player data
-        currentPlayer.solved_riddles.push(randomRiddle._id);
+        currentPlayer.solved_riddles.push(randomRiddle._id.toString());
         currentPlayer.stats = result.updatedStats;
       } else {
         console.log("⚠️  Answer correct but failed to save score");
@@ -258,7 +261,9 @@ async function readRiddles() {
     for (const [level, riddles] of Object.entries(grouped)) {
       console.log(`\n${level}:`);
       riddles.forEach(riddle => {
-        const solved = currentPlayer && currentPlayer.solved_riddles.includes(riddle._id) ? "✅" : "❓";
+        // Fixed comparison - convert ObjectId to string
+        const riddleIdString = riddle._id.toString();
+        const solved = currentPlayer && currentPlayer.solved_riddles.includes(riddleIdString) ? "✅" : "❓";
         console.log(`  ${solved} ${riddle.name}: ${riddle.question} (Answer: ${riddle.answer})`);
       });
     }
