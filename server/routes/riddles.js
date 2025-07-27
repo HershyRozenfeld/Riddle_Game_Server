@@ -32,42 +32,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// PUT /api/riddles/riddles/:id 
-// router.put('/riddles/:id', async (req, res) => {
-//     try {
-//     const { id } = req.params;
-//     if (!ObjectId.isValid(id)) {
-//       return res.status(400).json({ message: 'Invalid id' });
-//     }
-
-//     const { name, question, answer, level } = req.body;
-
-//     const updateFields = {};
-//     if (typeof name !== 'undefined') updateFields.name = name;
-//     if (typeof question !== 'undefined') updateFields.question = question;
-//     if (typeof answer !== 'undefined') updateFields.answer = answer;
-//     if (typeof level !== 'undefined') updateFields.level = level;
-
-//     if (Object.keys(updateFields).length === 0) {
-//       return res.status(400).json({ message: 'No fields to update' });
-//     }
-
-//     const db = getDb();
-//     const result = await db.collection(COLLECTION_NAME).updateOne(
-//       { _id: new ObjectId(id) },
-//       { $set: updateFields }
-//     );
-
-//     if (result.matchedCount === 0) {
-//       return res.status(404).json({ message: 'Riddle not found' });
-//     }
-
-//     res.status(200).json({ message: 'Riddle updated successfully' });
-//   } catch (error) {
-//     res.status(500).json({ message: 'Failed to update riddle', error: error.message });
-//   }
-// });
-
+// GET /api/riddles/riddle/:id - קבל חידה לפי ID
 router.put('/:id', async (req, res) => {
     try {
     const { id } = req.params;
