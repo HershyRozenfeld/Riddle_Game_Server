@@ -8,15 +8,15 @@ const router = Router();
 // Create new player with proper field mapping
 router.post("/player", async (req, res) => {
   const { name, email } = req.body;
-
+  console.log(`Creating player with name: ${name}, email: ${email}`); // Debugging line
   if (!name || !email) {
     return res.status(400).json({ message: "Name and email are required" });
   }
 
   try {
     const playerData = {
-      name,
-      email,
+      name: name.toLowerCase().trim(),
+      email: email.toLowerCase().trim(),
       solved_riddles: [],
       stats: {
         totalRiddles: 0,
@@ -38,6 +38,7 @@ router.post("/player", async (req, res) => {
       .single();
 
     if (error) {
+      console.error(`Error creating player: ${error.message}, Error code: ${error.code}`); // Debugging line
       if (error.code === "23505" || error.message.includes("duplicate key")) {
         return res.status(409).json({ message: "Email already exists" });
       }
@@ -128,7 +129,7 @@ router.post("/submit-score", async (req, res) => {
         time_to_solve,
         solved_at: new Date().toISOString()
       });
-
+      console.log(`Score submitted for player ${email}:`, { riddle_id, time_to_solve, riddle_level }); // Debugging line
     if (scoreErr) throw scoreErr;
 
     // Update player stats

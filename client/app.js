@@ -77,7 +77,7 @@ async function loginOrRegister() {
 }
 
 async function loginPlayer() {
-  const email = readlineSync.question("Enter your email: ");
+  const email = readlineSync.question("Enter your email: ").toLowerCase().trim();
   
   try {
     const res = await fetch(`${SERVER_URL}/api/players/player/${email}`);
