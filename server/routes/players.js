@@ -45,9 +45,10 @@ router.get("/player/:username", async (req, res) => {
     const { data: player, error: playerErr } = await supabase
       .from("players")
       .select("*")
-      .eq("username", username)
+      .eq("name", username)
       .single();
-
+    console.log(`Player data: ${JSON.stringify(player)}`); // Debugging line
+    console.log(`Player error: ${JSON.stringify(playerErr)}`); // Debugging line
     if (playerErr || !player) {
       return res.status(404).json({ message: "Player not found" });
     }
