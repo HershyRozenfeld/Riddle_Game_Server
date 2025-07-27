@@ -8,7 +8,7 @@ const router = Router();
 // Create new player with proper field mapping
 router.post("/player", async (req, res) => {
   const { name, email } = req.body;
-  console.log(`Creating player with name: ${name}, email: ${email}`); // Debugging line
+  console.log(`Creating player with name: ${name}, email: ${email}`);
   if (!name || !email) {
     return res.status(400).json({ message: "Name and email are required" });
   }
@@ -38,7 +38,7 @@ router.post("/player", async (req, res) => {
       .single();
 
     if (error) {
-      console.error(`Error creating player: ${error.message}, Error code: ${error.code}`); // Debugging line
+      console.error(`Error creating player: ${error.message}, Error code: ${error.code}`);
       if (error.code === "23505" || error.message.includes("duplicate key")) {
         return res.status(409).json({ message: "Email already exists" });
       }
@@ -89,17 +89,23 @@ router.get("/player/:email", async (req, res) => {
   }
 });
 
-// Submit score with proper player stats update
+// Submit score with EXTENSIVE DEBUG LOGGING
 router.post("/submit-score", async (req, res) => {
+  console.log("🎯 === SUBMIT SCORE STARTED ===");
+  console.log("📨 Request body:", req.body);
+  
   const { email, riddle_id, time_to_solve, riddle_level } = req.body;
 
   if (!email || !riddle_id || time_to_solve === undefined) {
+    console.log("❌ Missing required fields");
     return res.status(400).json({
       message: "Missing required fields: email, riddle_id, time_to_solve"
     });
   }
 
   try {
+    console.log("🔍 Looking for player with email:", email);
+    
     // Find player by email
     let { data: player, error: findErr } = await supabase
       .from("players")
@@ -107,32 +113,58 @@ router.post("/submit-score", async (req, res) => {
       .eq("email", email)
       .single();
 
-    if (findErr && !findErr.message.includes("No rows")) throw findErr;
+    console.log("📊 Player query result:", { player: player?.name, error: findErr?.message });
+
+    if (findErr && !findErr.message.includes("No rows")) {
+      console.log("❌ Player lookup error:", findErr);
+      throw findErr;
+    }
 
     if (!player) {
+      console.log("❌ Player not found");
       return res.status(404).json({ message: "Player not found. Create player first." });
     }
 
     const playerId = player.id;
+    console.log("✅ Found player ID:", playerId);
 
     // Check if riddle already solved
+    console.log("🔍 Checking if riddle already solved...");
+    console.log("Player solved riddles:", player.solved_riddles);
+    console.log("Current riddle ID:", riddle_id);
+    
     if (player.solved_riddles.includes(riddle_id)) {
+      console.log("⚠️  Riddle already solved!");
       return res.status(400).json({ message: "Riddle already solved by this player" });
     }
 
-    // Insert score
-    const { error: scoreErr } = await supabase
-      .from("player_scores")
-      .insert({ 
-        player_id: playerId, 
-        riddle_id, 
-        time_to_solve,
-        solved_at: new Date().toISOString()
-      });
-      console.log(`Score submitted for player ${email}:`, { riddle_id, time_to_solve, riddle_level }); // Debugging line
-    if (scoreErr) throw scoreErr;
+    console.log("✅ Riddle not solved yet, proceeding...");
 
-    // Update player stats
+    // Insert score
+    console.log("💾 Inserting score to player_scores table...");
+    const scoreInsertData = { 
+      player_id: playerId, 
+      riddle_id, 
+      time_to_solve,
+      solved_at: new Date().toISOString()
+    };
+    console.log("📝 Score data to insert:", scoreInsertData);
+    
+    const { data: scoreData, error: scoreErr } = await supabase
+      .from("player_scores")
+      .insert(scoreInsertData)
+      .select();
+      
+    console.log("📊 Score insert result:", { data: scoreData, error: scoreErr?.message });
+    
+    if (scoreErr) {
+      console.log("❌ Score insert failed:", scoreErr);
+      throw scoreErr;
+    }
+
+    console.log("✅ Score inserted successfully");
+
+    console.log("📈 Updating player stats...");
     const updatedSolvedRiddles = [...player.solved_riddles, riddle_id];
     const currentStats = player.stats || {
       totalRiddles: 0,
@@ -158,7 +190,11 @@ router.post("/submit-score", async (req, res) => {
       levelProgress
     };
 
+    console.log("📊 New stats:", updatedStats);
+    console.log("📝 New solved riddles:", updatedSolvedRiddles);
+
     // Update player record
+    console.log("💾 Updating player record...");
     const { error: updateErr } = await supabase
       .from("players")
       .update({ 
@@ -168,13 +204,24 @@ router.post("/submit-score", async (req, res) => {
       })
       .eq("id", playerId);
 
-    if (updateErr) throw updateErr;
+    console.log("📊 Player update result:", { error: updateErr?.message });
+
+    if (updateErr) {
+      console.log("❌ Player update failed:", updateErr);
+      throw updateErr;
+    }
+
+    console.log("✅ Player updated successfully");
+    console.log("🎉 === SUBMIT SCORE COMPLETED ===");
 
     res.status(201).json({ 
       message: "Score submitted successfully",
       updatedStats
     });
+    
   } catch (err) {
+    console.log("💥 SUBMIT SCORE ERROR:", err);
+    console.log("Stack trace:", err.stack);
     res.status(500).json({ 
       message: "Failed to submit score", 
       error: err.message 
